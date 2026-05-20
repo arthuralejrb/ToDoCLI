@@ -29,8 +29,8 @@ namespace ToDoList
 
                 break;
                 case "mark":
-                    // idTask = Convert.ToInt32(args[1]);
-                    // ToDoListManager.MarkTask(idTask);
+                    idTask = Convert.ToInt32(args[1]);
+                    ToDoListManager.MarkTask(idTask, args[2]);
 
                 break;
                 case "list":

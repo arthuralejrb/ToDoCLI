@@ -15,7 +15,7 @@ namespace ToDoList
         {
             Id = id;
             Description = descripton;
-            Status = Progress.Done;
+            Status = Progress.ToDo;
             CreatedAt = DateTime.Now;
             
         }        

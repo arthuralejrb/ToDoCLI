@@ -2,9 +2,9 @@
   {
     "id": 2,
     "description": "oi esse e oiutro teste aquiwjkln1ji2o3",
-    "status": 4,
+    "status": 0,
     "createdAt": "2026-05-19T21:56:13.4672873-03:00",
-    "updatedAt": "2026-05-19T22:20:09.1586992-03:00"
+    "updatedAt": "2026-05-20T08:19:23.3968937-03:00"
   },
   {
     "id": 3,
@@ -18,6 +18,13 @@
     "description": "testezadaaa",
     "status": 2,
     "createdAt": "2026-05-19T22:18:09.8176229-03:00",
+    "updatedAt": null
+  },
+  {
+    "id": 5,
+    "description": "matar o ryan",
+    "status": 0,
+    "createdAt": "2026-05-20T08:26:09.7218779-03:00",
     "updatedAt": null
   }
 ]

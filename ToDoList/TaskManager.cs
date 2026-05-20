@@ -100,28 +100,35 @@ namespace ToDoList
             }
         }
     
-        // public void MarkTask(int idTask)
-        // {
-        //     Tasks = TaskRepository.ReadJson<List<Task>> () ?? new List<Task>();
+        public void MarkTask(int idTask, string status)
+        {
+            Tasks = TaskRepository.ReadJson<List<Task>> () ?? new List<Task>();
+            Progress NewStatus = status switch
+            {
+                "in-progress" => Progress.InProgress,
+                "done" => Progress.Done,
+                "to-do" => Progress.ToDo,
+                _ => Progress.ToDo,
 
-        //     if(Tasks.Any(f=> f.Id == idTask)) {
+            };
+
+            if(Tasks.Any(f=> f.Id == idTask)) {
                 
-        //         foreach(Task task in Tasks)
-        //         {
-        //             if(task.Id == idTask)
-        //             {
-        //                 task.Status = Progress.InProgress;
-        //                 task.UpdatedAt = DateTime.Now;
+                foreach(Task task in Tasks)
+                {
+                    if(task.Id == idTask)
+                    {          
+                        task.UpdatedAt = DateTime.Now;
+                        task.Status = NewStatus;
+                        TaskRepository.WriteJson<List<Task>>(Tasks);
+                        Console.WriteLine($"Task ID: {idTask} status marked as {status}!!");
 
-        //                 TaskRepository.WriteJson<List<Task>>(Tasks);
-        //                 Console.WriteLine($"Task ID: {idTask} status marked!!");
-
-        //             }
-        //         }
-        //     }else
-        //     {
-        //         Console.WriteLine($"There is no task with ID: {idTask}");
-        //     }
-        // }
+                    }
+                }
+            }else{
+                Console.WriteLine($"There is no task with ID: {idTask}");
+            
+            }
+        }
     }
 }
