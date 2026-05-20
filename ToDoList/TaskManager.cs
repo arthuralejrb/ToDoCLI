@@ -1,3 +1,4 @@
+using System.Net;
 using System.Runtime.CompilerServices;
 
 namespace ToDoList
@@ -128,6 +129,34 @@ namespace ToDoList
             }else{
                 Console.WriteLine($"There is no task with ID: {idTask}");
             
+            }
+        }
+    
+        public void ListTasks(params string[] filter)
+        {
+            Tasks = TaskRepository.ReadJson<List<Task>>() ?? new List<Task>();
+
+            Progress statusFilter = filter[1] switch
+            {
+                "in-progress" => Progress.InProgress,
+                "done" => Progress.Done,
+                "to-do" => Progress.ToDo,
+                _ => Progress.ToDo,
+
+            };
+
+            foreach (Task task in Tasks)
+            {
+                if(filter.Length > 0)
+                {   if(task.Status == statusFilter){
+                        Console.WriteLine($"Task: {task.Description} | Status: {task.Status}");
+                    
+                    }
+
+                }else{
+                    Console.WriteLine($"Task: {task.Description} | Status: {task.Status}");
+                    
+                }
             }
         }
     }
