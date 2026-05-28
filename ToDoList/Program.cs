@@ -1,18 +1,17 @@
-﻿using System.ComponentModel;
-using System.Data.Common;
-
-namespace ToDoList
+﻿namespace ToDoList
 {
-    
     class Program
     {
         static void Main(string[]args)
         {
             TaskManager ToDoListManager = new TaskManager();
             int idTask;
+
+            //check to see if the user tried to inform a operation
             if (args.Length > 0)
             {
                 
+                //handels all possible operations
                 switch(args[0])
                 {
                     case "add":
@@ -47,7 +46,7 @@ namespace ToDoList
 
                     default:
                         Console.WriteLine("Not a valid operation!");
-                        
+
                     break;
 
                 }

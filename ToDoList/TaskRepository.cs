@@ -1,69 +1,70 @@
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace ToDoList
 {
+    // class used to handle write and read JSON operations
     public class TaskRepository
     {
+
         public static bool WriteJson<T>(T data)
         {
-            try
-            {
+            try{
+                //saves the input data in jsonString, and then write it to the file
                 string jsonString = JsonSerializer.Serialize(data, Configs.JsonOptions);
                 File.WriteAllText(Configs.Path, jsonString);
 
                 return true;
+
             }
-            catch (UnauthorizedAccessException)
-            {
-                Console.WriteLine("No permission to write file");
-                return false;
-            }
-            catch(PathTooLongException)
-            {
-                Console.WriteLine("File Path too long");
+            catch (UnauthorizedAccessException){
+                Console.WriteLine("No permission to write file!!");
                 return false;
 
             }
-            catch(Exception ex)
-            {
-                Console.WriteLine($"Unexpected error: {ex.Message}");
+            catch(PathTooLongException){
+                Console.WriteLine("File Path too long!!");
                 return false;
+
+            }
+            catch(Exception ex){
+                Console.WriteLine($"Unexpected error: {ex.Message}!!");
+                return false;
+            
             }
         }
 
         public static T? ReadJson<T>()
         {
-            try
-            {
-                if(!File.Exists(Configs.Path))
-                {
+            try{
+                if(!File.Exists(Configs.Path)){
                     Console.WriteLine($"File not found: {Configs.Path}");
                     return default;
+
                 }
 
+                //writes all json text to jsonString
                 string jsonString = File.ReadAllText(Configs.Path);
 
-                if(string.IsNullOrEmpty(jsonString))
-                {
+                if(string.IsNullOrEmpty(jsonString)){
                     Console.WriteLine("Empty File!");
                     return default;
                 
                 }
 
+                //returns the json text in a list format
                 return JsonSerializer.Deserialize<T>(jsonString, Configs.JsonOptions);
+            
             }
-            catch(JsonException ex)
-            {
+            catch(JsonException ex){
                 Console.WriteLine($"Error on JSON format : {ex.Message}");
                 return default;
-            
-            }catch (Exception ex)
-            {
+
+            }catch (Exception ex){
                 Console.WriteLine($"Error trying to read: {ex.Message}");
                 return default;
 
             }
         }
+
     }
 }

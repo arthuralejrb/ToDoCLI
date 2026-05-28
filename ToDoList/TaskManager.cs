@@ -10,22 +10,22 @@ namespace ToDoList
 
         public void AddTask(string[] FullDescription)
         {
-
+            //get all the json data into Tasks list
             Tasks = TaskRepository.ReadJson<List<Task>>() ?? new List<Task>();
 
-            if (Tasks.Count() != 0)
-            {
+            //gets the right NextID
+            if (Tasks.Count() != 0){
                 NextId = Tasks.Last().Id + 1;        
            
-            }else
-            {
+            }else{
                 NextId = 1;
+
             }
             
+            //creates and concatenate the new task description
             string newDescription = "";
 
-            for(int i = 1; i < FullDescription.Length; i++)
-            {
+            for(int i = 1; i < FullDescription.Length; i++){
                 newDescription += FullDescription[i];
                 if(i < FullDescription.Length - 1)
                 {
@@ -34,9 +34,11 @@ namespace ToDoList
                 } 
             }
 
+            //creates a new Task and adds it to the Tasks list
             Task task = new Task(newDescription, NextId);
             Tasks.Add(task);
 
+            //write the tasks list into the json file
             TaskRepository.WriteJson<List<Task>>(Tasks);
             Console.WriteLine($"Task added successfully (ID: {NextId})!!");
 
@@ -44,9 +46,10 @@ namespace ToDoList
 
         public void UpdateTask(int idTask, string[] FullDescription)
         {
-
+            //get all the json data into Tasks list
             Tasks = TaskRepository.ReadJson<List<Task>>() ?? new List<Task>();
 
+            //creates and concatenate the task new description
             string newDescription = "";
             for(int i = 2; i < FullDescription.Length; i++)
             {
@@ -57,6 +60,7 @@ namespace ToDoList
                 }
             }
 
+            //loops through every task until it finds a matching ID. then changes its description
             if(Tasks.Any(f=> f.Id == idTask)) {
                 
                 foreach(Task task in Tasks)
@@ -80,9 +84,10 @@ namespace ToDoList
 
         public void DeleteTask(int idTask)
         {
-
+            //get all the json data into Tasks list
             Tasks = TaskRepository.ReadJson<List<Task>>() ?? new List<Task>();
             
+            //loops through every task until it finds a matching ID, then delete the task
             if(Tasks.Any( f => f.Id == idTask)) {
                 
                 for(int i = Tasks.Count() - 1; i >= 0; i--)
@@ -103,7 +108,10 @@ namespace ToDoList
     
         public void MarkTask(int idTask, string status)
         {
+            //get all the json data into Tasks list
             Tasks = TaskRepository.ReadJson<List<Task>> () ?? new List<Task>();
+
+            //defines the new status based on the user input
             Progress NewStatus = status switch
             {
                 "in-progress" => Progress.InProgress,
@@ -113,6 +121,7 @@ namespace ToDoList
 
             };
 
+            //loops through each task until it finds a matching ID, then changes it's status
             if(Tasks.Any(f=> f.Id == idTask)) {
                 
                 foreach(Task task in Tasks)
@@ -134,8 +143,10 @@ namespace ToDoList
     
         public void ListTasks(params string[] filter)
         {
+            //get all the json data into Tasks list
             Tasks = TaskRepository.ReadJson<List<Task>>() ?? new List<Task>();
 
+            //defines the filter for the search
             Progress statusFilter = filter[1] switch
             {
                 "in-progress" => Progress.InProgress,
@@ -145,6 +156,7 @@ namespace ToDoList
 
             };
 
+            //loops througth each task and exhibits any task with matching filters
             foreach (Task task in Tasks)
             {
                 if(filter.Length > 0)
