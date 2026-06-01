@@ -145,16 +145,21 @@ namespace ToDoList
         {
             //get all the json data into Tasks list
             Tasks = TaskRepository.ReadJson<List<Task>>() ?? new List<Task>();
-
+            Progress statusFilter = Progress.ToDo;
+            
             //defines the filter for the search
-            Progress statusFilter = filter[1] switch
+            if (filter.Length > 0) 
             {
-                "in-progress" => Progress.InProgress,
-                "done" => Progress.Done,
-                "to-do" => Progress.ToDo,
-                _ => Progress.ToDo,
+                statusFilter = filter[1] switch
+                {
+                    "in-progress" => Progress.InProgress,
+                    "done" => Progress.Done,
+                    "to-do" => Progress.ToDo,
+                    _ => Progress.ToDo,
 
-            };
+                };
+                
+            }
 
             //loops througth each task and exhibits any task with matching filters
             foreach (Task task in Tasks)
