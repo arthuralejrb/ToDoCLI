@@ -25,3 +25,25 @@ dotnet build
 dotnet run -- add Write documentation
 dotnet run -- mark 1 done
 dotnet run -- list
+
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Worker as Worker Service
+    participant Scraper as Scraper Engine
+    participant DB as PostgreSQL
+    participant AI as API da IA (LLM)
+    participant TTS as API Text-to-Speech
+    participant Telegram as Telegram Bot
+
+    Worker->>Scraper: Inicia coleta diária
+    Scraper->>DB: Salva notícias (checa URLs duplicadas)
+    Worker->>DB: Busca matérias relevantes do dia
+    DB-->>Worker: Retorna lote de notícias
+    Worker->>AI: Envia prompt + textos das notícias
+    AI-->>Worker: Retorna resumo consolidado (Markdown)
+    Worker->>TTS: Envia texto resumido
+    TTS-->>Worker: Retorna arquivo de áudio (MP3)
+    Worker->>Telegram: Envia mensagem em texto + áudio MP3
+    Worker->>DB: Atualiza status das notícias para "Enviado"
